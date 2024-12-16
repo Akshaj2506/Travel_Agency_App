@@ -1,13 +1,23 @@
-import { useState } from 'react'
+import {
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  createRoutesFromElements
+} from "react-router-dom"
 import './App.css'
+import MainLayout from './layouts/MainLayout'
+import ShowPackages from './pages/ShowPackages'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' element={<MainLayout/>}>
+        <Route index element={<ShowPackages/>}/>
+      </Route>
+    )
+  )
   return (
-    <>
-      <h1 onClick={() => {setCount(count + 1)}} className='font-bold text-4xl'>{count}</h1>
-    </>
+    <RouterProvider router={router}/>
   )
 }
 
