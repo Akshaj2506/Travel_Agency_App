@@ -4,18 +4,23 @@ const cors = require('cors')
 const app = express();
 const dotenv = require("dotenv")
 const bodyParser = require("body-parser")
-const port = 5000
+const port = 5000;
+
 dotenv.config();
 connectDB();
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({
-   extended: true
-}))
-app.use(bodyParser.json())
 
-app.use('/api/package', './routes/package')
-app.use('/api/booking', './routes/booking')
+app.use(cors({
+   origin: 'http://localhost:5173',  // Your frontend URL here
+   methods: ['GET', 'POST', 'PUT', "DELETE"],
+   allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+app.use(express.json());
+app.use(express.urlencoded({
+   extended:true
+}))
+
+app.use('/api/package', require('./routes/package'))
+// app.use('/api/booking', require('./routes/booking'))
 
 app.get('/', (req, res) => {
    res.send("Travel Agency Backend: RUNNING")
