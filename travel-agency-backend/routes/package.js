@@ -45,7 +45,7 @@ router.post('/add',[
 })
 router.get("/fetchAll", async (req, res) => {
    try {
-      const packages = Package.find();
+      const packages = await Package.find();
       res.json({packages : packages})
    } catch (error) {
       console.error(error.message);
