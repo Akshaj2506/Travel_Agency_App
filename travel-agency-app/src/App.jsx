@@ -9,8 +9,11 @@ import MainLayout from './layouts/MainLayout'
 import ShowPackages from './pages/ShowPackages'
 import CreatePackage from "./pages/CreatePackage"
 import AdminLayout from "./layouts/AdminLayout"
+import UpdatePackage from "./pages/UpdatePackage"
+import AdminShowPackages from "./pages/AdminShowPackages"
 
 function App() {
+  document.title = "Travel Agency App"
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -18,8 +21,9 @@ function App() {
           <Route index element={<ShowPackages />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<ShowPackages />} />
+          <Route index element={<AdminShowPackages />} />
           <Route path="/admin/create" element={<CreatePackage />} />
+          <Route path="/admin/update/:id" element={<UpdatePackage />} />
         </Route>
       </>
     )
