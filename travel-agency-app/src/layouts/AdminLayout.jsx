@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import AdminNav from '../components/AdminNav'
+import AdminLogin from '../pages/AdminLogin';
 
 const AdminLayout = () => {
    return (
       <>
-         <AdminNav />
-         <Outlet />
+         {sessionStorage.getItem("admin-access") ? <><AdminNav /><Outlet /></> : (<AdminLogin/>)}
       </>
    )
 }

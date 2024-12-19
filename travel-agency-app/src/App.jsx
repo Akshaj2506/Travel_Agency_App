@@ -16,7 +16,7 @@ import Invoice from "./components/Invoice"
 import ShowBookings from "./pages/ShowBookings"
 
 function App() {
-  document.title = "Travel Agency App"
+  document.title = "Travel Agency App";
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
