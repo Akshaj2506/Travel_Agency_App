@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminShowPackages = () => {
    const [packages, setPackages] = useState([]);
+   const navigate = useNavigate();
    useEffect(() => {
       const fetchAllPackages = async () => {
          await fetch("http://localhost:5000/api/package/fetchAll", {
@@ -18,7 +20,8 @@ const AdminShowPackages = () => {
    return (
       <>
          <div className="relative overflow-auto">
-            <div className="shadow-sm overflow py-4">
+            <Link to="/admin/create"className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 ml-2 my-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-block">Add Package</Link>
+            <div className="shadow-sm overflow">
                <table className="rounded-full border-collapse table-fixed w-full text-sm">
                   <thead className="bg-slate-600">
                      <tr>
@@ -36,8 +39,8 @@ const AdminShowPackages = () => {
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{pack.title}</td>
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{pack.description}</td>
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{pack.price.$numberDecimal}</td>
-                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{new Date(pack.availableDate).getDate()}/{new Date(pack.availableDate).getMonth()}/{new Date(pack.availableDate).getFullYear()}</td>
-                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Update</button></td>
+                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{new Date(pack.availableDate).getDate()}/{new Date(pack.availableDate).getMonth()+1}/{new Date(pack.availableDate).getFullYear()}</td>
+                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" onClick={() => navigate(`/admin/update/${pack._id}`, {state: pack})}>Update</button></td>
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button></td>
                            
                         </tr>
