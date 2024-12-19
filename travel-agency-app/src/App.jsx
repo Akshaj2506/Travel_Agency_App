@@ -11,6 +11,8 @@ import CreatePackage from "./pages/CreatePackage"
 import AdminLayout from "./layouts/AdminLayout"
 import UpdatePackage from "./pages/UpdatePackage"
 import AdminShowPackages from "./pages/AdminShowPackages"
+import CreateBooking from "./pages/CreateBooking"
+import Invoice from "./components/Invoice"
 
 function App() {
   document.title = "Travel Agency App"
@@ -19,6 +21,8 @@ function App() {
       <>
         <Route path='/' element={<MainLayout />}>
           <Route index element={<ShowPackages />} />
+          <Route path="/book" element={<CreateBooking/>}/>
+          <Route path="/invoice" element={<Invoice/>}/>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminShowPackages />} />

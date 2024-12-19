@@ -10,7 +10,7 @@ dotenv.config();
 connectDB();
 
 app.use(cors({
-   origin: 'http://localhost:5173',  // Your frontend URL here
+   origin: 'http://localhost:5173',
    methods: ['GET', 'POST', 'PUT', "DELETE"],
    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -20,7 +20,7 @@ app.use(express.urlencoded({
 }))
 
 app.use('/api/package', require('./routes/package'))
-// app.use('/api/booking', require('./routes/booking'))
+app.use('/api/booking', require('./routes/booking'))
 
 app.get('/', (req, res) => {
    res.send("Travel Agency Backend: RUNNING")
