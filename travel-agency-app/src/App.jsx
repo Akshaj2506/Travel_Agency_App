@@ -13,6 +13,7 @@ import UpdatePackage from "./pages/UpdatePackage"
 import AdminShowPackages from "./pages/AdminShowPackages"
 import CreateBooking from "./pages/CreateBooking"
 import Invoice from "./components/Invoice"
+import ShowBookings from "./pages/ShowBookings"
 
 function App() {
   document.title = "Travel Agency App"
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<AdminShowPackages />} />
           <Route path="/admin/create" element={<CreatePackage />} />
           <Route path="/admin/update/:id" element={<UpdatePackage />} />
+          <Route path="/admin/bookings" element={<ShowBookings />} />
         </Route>
       </>
     )

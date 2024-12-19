@@ -24,5 +24,13 @@ router.post("/add", [
       res.status(500).json({ error: "Internal Server Error" });
    }
 })
-
+router.get("/fetchAll", async (req, res) => {
+   try {
+      const bookings = await Booking.find();
+      res.json({ bookings: bookings})
+   } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ "error": "Internal Server Error" })
+   }
+})
 module.exports = router
