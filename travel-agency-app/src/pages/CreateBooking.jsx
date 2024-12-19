@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CreateBooking = () => {
+   const { state: pack } = useLocation()
    const [formData, setFormData] = useState({
       name: null,
       email: null,
       phoneNumber: null,
-      selectedPackage: null,
+      selectedPackage: pack?.title || null,
       travellerQuantity: null,
       specialRequests: null
    })
+   const navigate = useNavigate();
    const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
@@ -16,16 +19,23 @@ const CreateBooking = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-         const response = await fetch("http://localhost:5000/api/package/add", {
+         const response = await fetch("http://localhost:5000/api/booking/add", {
             method: "POST",
             headers: {
                "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({
+               name : formData.name,
+               email: formData.email,
+               phoneNumber : formData.phoneNumber,
+               selectedPackage : pack?._id,
+               travellerQuantity : formData.travellerQuantity,
+               specialRequests : formData.specialRequests || ""
+            }),
          });
 
          if (response.ok) {
-            alert("Package added successfully!");
+            alert("Booking added successfully!");
          } else {
             alert("Error Occurred");
          }
@@ -48,9 +58,9 @@ const CreateBooking = () => {
                      </div>
                   </div>
                   <div className="sm:col-span-3">
-                     <label htmlFor="phone" className="block text-sm/6 font-medium text-gray-900">Phone</label>
+                     <label htmlFor="phoneNumber" className="block text-sm/6 font-medium text-gray-900">Phone</label>
                      <div className="mt-2">
-                        <input onChange={handleChange} type="number" name="phone" id="phone" autoComplete="family-name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="+91 12345 67890" />
+                        <input onChange={handleChange} type="number" name="phoneNumber" id="phoneNumber" autoComplete="family-name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="+91 12345 67890" />
                      </div>
                   </div>
                   <div className="sm:col-span-3">
@@ -63,7 +73,7 @@ const CreateBooking = () => {
                      <label htmlFor="selectedPackage" className="block text-sm/6 font-medium text-gray-900">Selected Package</label>
                      <div className="mt-2">
                         <div className="flex items-center rounded-md bg-white outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                           <input onChange={handleChange} type="text" name="selectedPackage" id="selectedPackage" className="block min-w-0 grow py-1.5 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" disabled />
+                           <input onChange={handleChange} type="text" name="selectedPackage" id="selectedPackage" className="block pl-3 min-w-0 grow py-1.5 pr-3 text-base text-gray-400 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" value={formData.selectedPackage} disabled />
                         </div>
                      </div>
                   </div>
@@ -83,7 +93,12 @@ const CreateBooking = () => {
             </div>
          </div>
          <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Book</button>
+            <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={() => navigate(`/invoice`, {
+               state: {
+                  pack: pack,
+                  bookingData: formData
+               }
+            })}>Book</button>
          </div>
       </form>
    )

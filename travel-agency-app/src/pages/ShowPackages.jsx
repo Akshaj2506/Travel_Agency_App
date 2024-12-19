@@ -20,7 +20,7 @@ const ShowPackages = () => {
       <>
          <div className="p-12 grid grid-cols-4 gap-3">
             {packages.map(pack => (
-               <Package key={pack.id} pack={pack} />
+               <Package key={pack._id} pack={pack} />
             ))}
          </div>
       </>

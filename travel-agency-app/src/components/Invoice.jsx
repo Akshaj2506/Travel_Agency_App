@@ -1,7 +1,10 @@
 import {jsPDF} from "jspdf"
 import html2canvas from "html2canvas"
 import logoImg from "/icon.png"
+import { useLocation } from "react-router-dom";
 const Invoice = () => {
+   const {state : data} = useLocation();
+
    const printInvoice = () => {
       const element = document.getElementById("invoice");
 
@@ -53,15 +56,15 @@ const Invoice = () => {
             <div>
                <p className="font-bold text-gray-800">Bill to:</p>
                <p className="text-gray-500">
-                  User Name
+                  {data.bookingData.name}
                   <br />
                   102, San-Fransico, CA, USA
                </p>
-               <p className="text-gray-500">info@laravel.com</p>
+               <p className="text-gray-500">{data.bookingData.email}</p>
             </div>
             <div className="text-right">
                <p>
-                  Invoice number: <span className="text-gray-500">INV-2023786123</span>
+                  Invoice number: <span className="text-gray-500">INV-{parseInt(Math.random() * 10000000)}</span>
                </p>
                <p>
                   Invoice date: <span className="text-gray-500">{new Date().getDate()}/{new Date().getMonth() + 1}/{new Date().getFullYear()}</span>
@@ -84,28 +87,28 @@ const Invoice = () => {
                </thead>
                <tbody>
                   <tr className="border-b border-gray-200">
-                     <td className="py-4 text-sm text-gray-900">Shop SEO</td>
-                     <td className="py-4 text-sm text-right text-gray-500">50.0</td>
-                     <td className="py-4 text-sm text-right text-gray-500">$100.00</td>
-                     <td className="py-4 text-sm text-right text-gray-500">$500.00</td>
+                     <td className="py-4 text-sm text-gray-900">{data.pack.title}</td>
+                     <td className="py-4 text-sm text-right text-gray-500">{data.bookingData.travellerQuantity}</td>
+                     <td className="py-4 text-sm text-right text-gray-500">{data.pack.price.$numberDecimal}</td>
+                     <td className="py-4 text-sm text-right text-gray-500">{parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)}</td>
                   </tr>
                </tbody>
                <tfoot>
                   <tr>
                      <th colSpan="3" className="py-4 text-right text-sm font-normal text-gray-500">Subtotal</th>
-                     <td className="py-4 text-right text-sm text-gray-500">$10,500.00</td>
+                     <td className="py-4 text-right text-sm text-gray-500">{parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)}</td>
                   </tr>
                   <tr>
-                     <th colSpan="3" className="py-4 text-right text-sm font-normal text-gray-500">Tax</th>
-                     <td className="py-4 text-right text-sm text-gray-500">$1,050.00</td>
+                     <th colSpan="3" className="py-4 text-right text-sm font-normal text-gray-500">CGST/SGST (16% total)</th>
+                     <td className="py-4 text-right text-sm text-gray-500">{(parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)) * 0.16}</td>
                   </tr>
                   <tr>
-                     <th colSpan="3" className="py-4 text-right text-sm font-normal text-gray-500">Discount</th>
-                     <td className="py-4 text-right text-sm text-gray-500">- 10%</td>
+                     <th colSpan="3" className="py-4 text-right text-sm font-normal text-gray-500">Discount (10%)</th>
+                     <td className="py-4 text-right text-sm text-gray-500">-{(parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)) * 0.1}</td>
                   </tr>
                   <tr>
                      <th colSpan="3" className="py-4 text-right text-sm font-semibold text-gray-900">Total</th>
-                     <td className="py-4 text-right text-sm text-gray-900">$11,550.00</td>
+                     <td className="py-4 text-right text-sm text-gray-900">{parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal) + ((parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)) * 0.16) - (parseInt(data.bookingData.travellerQuantity) * parseFloat(data.pack.price.$numberDecimal)) * 0.1}</td>
                   </tr>
                </tfoot>
             </table>
