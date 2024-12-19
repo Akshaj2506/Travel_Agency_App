@@ -16,7 +16,16 @@ const AdminShowPackages = () => {
       }
       fetchAllPackages()
    }, [])
-
+   const confirmDelete = async (id) => {
+      const userResponse = confirm("Are you sure that you want to delete this package?");
+      if (userResponse) {
+         await fetch(`http://localhost:5000/api/package/delete/${id}`,{
+            method: "DELETE"
+         }).then(alert("Package Deleted"))
+      }else {
+         alert("Delete Action Cancelled")
+      }
+   }
    return (
       <>
          <div className="relative overflow-auto">
@@ -41,7 +50,7 @@ const AdminShowPackages = () => {
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{pack.price.$numberDecimal}</td>
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{new Date(pack.availableDate).getDate()}/{new Date(pack.availableDate).getMonth()+1}/{new Date(pack.availableDate).getFullYear()}</td>
                            <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" onClick={() => navigate(`/admin/update/${pack._id}`, {state: pack})}>Update</button></td>
-                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button></td>
+                           <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400"><button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => confirmDelete(pack._id)}>Delete</button></td>
                            
                         </tr>
                      ))}

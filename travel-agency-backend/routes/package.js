@@ -65,4 +65,20 @@ router.put("/update/:id", async (req, res) => {
       res.status(500).send("Internal Server Error");
    }
 })
+router.delete("/delete/:id", async (req, res) => {
+   try {
+      const targetPackage = await Package.findById(req.params.id);
+      if (!targetPackage)
+         return res.status(404).json({
+            error: "Record Not Found"
+         });
+      Package.findByIdAndDelete({ _id: req.params.id })
+      .then(res.json({
+         resp: "Note Deleted Successfully"
+      }));
+   } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: "Internal Server Error" });
+   }
+})
 module.exports = router
